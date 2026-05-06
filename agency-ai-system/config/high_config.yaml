@@ -1,0 +1,40 @@
+mode: high
+description: "高配置模式 - 适合8核8GB+服务器"
+
+resources:
+  max_memory: "6GB"
+  max_cpu: "6"
+  system_reserved: "1GB"
+
+agents:
+  max_concurrent: 5
+  max_loaded: 5
+  memory_per_agent: "1GB"
+  model: "gpt-4"
+  max_context_length: 4096
+
+tasks:
+  max_concurrent: 10
+  max_queue_size: 500
+  timeout: 300
+
+database:
+  type: "postgresql"
+  host: "localhost"
+  port: 5432
+  name: "agency_db"
+
+queue:
+  type: "rabbitmq"
+  host: "localhost"
+  port: 5672
+
+cache:
+  type: "redis"
+  host: "localhost"
+  port: 6379
+
+logging:
+  level: "DEBUG"
+  max_files: 10
+  max_size: "50MB"

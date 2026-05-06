@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  orchestrator:
+    build:
+      context: ./orchestrator
+      dockerfile: Dockerfile
+    container_name: agency-orchestrator
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///app/data/agency.db
+      - QUEUE_TYPE=memory
+      - CACHE_TYPE=memory
+      - MAX_AGENTS=2
+      - MAX_CONCURRENT_TASKS=5
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+      - ./agents:/app/agents
+    restart: unless-stopped
+
+  agent-worker:
+    build:
+      context: ./agent-worker
+      dockerfile: Dockerfile
+    container_name: agency-agent-worker
+    environment:
+      - ORCHESTRATOR_URL=http://orchestrator:8000
+    volumes:
+      - ./config:/app/config
+      - ./agents:/app/agents
+    depends_on:
+      - orchestrator
+    restart: unless-stopped
+
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    container_name: agency-dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      - API_URL=http://orchestrator:8000
+    depends_on:
+      - orchestrator
+    restart: unless-stopped

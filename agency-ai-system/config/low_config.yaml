@@ -1,0 +1,37 @@
+mode: low
+description: "低配置模式 - 适合2核2GB服务器"
+
+resources:
+  max_memory: "1GB"
+  max_cpu: "1.5"
+  system_reserved: "512MB"
+
+agents:
+  max_concurrent: 1
+  max_loaded: 1
+  memory_per_agent: "256MB"
+  model: "gpt-3.5-turbo"
+  max_context_length: 1024
+
+tasks:
+  max_concurrent: 1
+  max_queue_size: 50
+  timeout: 120
+
+database:
+  type: "sqlite"
+  path: "data/agency.db"
+
+queue:
+  type: "memory"
+  max_size: 50
+
+cache:
+  type: "memory"
+  max_size: 100
+  ttl: 1800
+
+logging:
+  level: "WARNING"
+  max_files: 3
+  max_size: "5MB"

@@ -1,0 +1,45 @@
+mode: ultra
+description: "超高配置模式 - 适合16核16GB+服务器"
+
+resources:
+  max_memory: "12GB"
+  max_cpu: "12"
+  system_reserved: "2GB"
+
+agents:
+  max_concurrent: 10
+  max_loaded: 10
+  memory_per_agent: "2GB"
+  model: "gpt-4"
+  max_context_length: 8192
+
+tasks:
+  max_concurrent: 20
+  max_queue_size: 1000
+  timeout: 600
+
+database:
+  type: "postgresql"
+  host: "localhost"
+  port: 5432
+  name: "agency_db"
+
+queue:
+  type: "rabbitmq"
+  host: "localhost"
+  port: 5672
+
+cache:
+  type: "redis"
+  host: "localhost"
+  port: 6379
+
+monitoring:
+  enabled: true
+  prometheus: true
+  grafana: true
+
+logging:
+  level: "DEBUG"
+  max_files: 20
+  max_size: "100MB"
